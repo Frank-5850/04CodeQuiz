@@ -16,7 +16,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <span class="navbar-brand mb-1 h1">Javascript Quiz</span>
+        <span class="navbar-brand mb-1 h1">Coding Quiz</span>
       </div>
     </nav>
 
@@ -26,52 +26,65 @@
           <div class="col-md-12">
             <div class="card mt-2">
               <div class="card-body">
-                <div class="row col-md-12">
-                  <a href="#" class="col-md-4 badge badge-primary"
-                    >View Highscores</a
+                <div class="row col-md-12 py-1">
+                  <div class="col-md-2"></div>
+                  <a
+                    href="#"
+                    class="col-md-2 badge badge-primary"
+                    id="highscores"
+                    >Highscores</a
                   >
-                  <div class="col"></div>
-                  <div class="col" id="timer">Timer</div>
+                  <div class="col-md-2"></div>
+                  <div class="col-md-2"></div>
+                  <a class="col-md-2 badge badge-primary" id="timer">Time: </a>
+                  <div class="col-md-2"></div>
                 </div>
-                <h1 class="border-bottom border-dark">Coding Quiz</h1>
+                <h1>Coding Quiz</h1>
                 <div class="row">
-                  <div class="col-md-12 text-left" id="questions">question</div>
-                  <!-- Start of Answers -->
+                  <div class="col-md-12 text-left" id="questions">
+                    Can you answer all these coding questions correctly?
+                  </div>
                   <div class="col-md-12 text-left pt-3" id="answers">
                     <button
                       type="button"
-                      class="btn btn-dark text-light btn btn-block"
+                      class="btn btn-dark text-light btn-block"
+                      id="startBtn"
+                    >
+                      Lets Start!
+                    </button>
+                  </div>
+                  <!-- <div class="col-md-12 text-left pt-3" id="answers">
+                    <button
+                      type="button"
+                      class="btn btn-dark text-light btn-block"
                       id="answer_a"
                     >
                       Answer A
                     </button>
                     <button
                       type="button"
-                      class="btn btn-dark text-light btn btn-block"
+                      class="btn btn-dark text-light btn-block"
                       id="answer_b"
                     >
                       Answer B
                     </button>
                     <button
                       type="button"
-                      class="btn btn-dark text-light btn btn-block"
+                      class="btn btn-dark text-light btn-block"
                       id="answer_c"
                     >
                       Answer C
                     </button>
                     <button
                       type="button"
-                      class="btn btn-dark text-light btn btn-block"
+                      class="btn btn-dark text-light btn-block"
                       id="answer_d"
                     >
                       Answer D
                     </button>
-                  </div>
+                  </div> -->
                   <div class="col-md-12 pt-3">
-                    <section
-                      class="border-top border-dark text-left font-italic"
-                      id="response"
-                    >
+                    <section class="text-center" id="response">
                       Correct/Incorrect
                     </section>
                   </div>
