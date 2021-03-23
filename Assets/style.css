@@ -1,72 +1,17 @@
-:root {
-  background-color: lightgray;
-  min-height: 60vh;
-  letter-spacing: 1px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-h2 {
-  margin-top: -0.5rem;
-}
-
-.container {
-  font-weight: bold;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  padding: 3rem;
-  border: black 2px solid;
-  border-radius: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-button {
-  display: inline-block;
-  background-color: darkgray;
-  border-radius: 10px;
-  border: 3px double #cccccc;
-  color: #eeeeee;
-  text-align: center;
-  font-size: 20px;
-  padding: 20px;
-  width: 200px;
-  margin-top: 3px;
-}
-
-button:hover {
-  box-shadow: 4px 3px 6px grey;
-}
-
-#quiz {
-  display: none;
-}
-
-#result {
-  display: none;
-}
-
-#gameover {
-  text-align: center;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-}
-
-#highscoreContainer {
+/* This is needed for sticky footer */
+/* Overall Styling */
+html,
+body {
   height: 100%;
-  width: 100%;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
-li {
-  padding-bottom: 3px;
-  color: white;
-  text-shadow: 1.5px 1px 3px black;
-  list-style-type: none;
+/* Start of page content styling */
+#page-content {
+  flex: 1 0 auto;
 }
+
+/* Start of footer styling */
+#sticky-footer {
+  flex-shrink: 0;
+}
+/* End of needed for sticky footer */
