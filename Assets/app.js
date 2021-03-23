@@ -1,11 +1,15 @@
-let timeEl = document.getElementById("timer");
-let questions = document.getElementById("questions");
-let ansSec = document.getElementById("answer_sec");
-let quesResponse = document.getElementById("response");
-let hsLink = document.getElementById("highscores");
-let startBtn = document.getElementById("startBtn");
-let ansDiv = document.getElementById("answers");
+const hsLink = document.getElementById("highscores");
+const timeEl = document.getElementById("timer");
+const questions = document.getElementById("questions");
+const ansSec = document.getElementById("answer_sec");
+const quesResponse = document.getElementById("response");
+const startBtn = document.getElementById("startBtn");
+const ansDiv = document.getElementById("answers");
+const title = document.getElementById("quizTitle");
+const nameEndInput = document.getElementById("nameEnd");
+const highScoresList = document.getElementById("highScoresUl");
 
+let secondsLeft = 40;
 let quesArray = [
   {
     question: "Which of the following is NOT a datatype",
@@ -13,6 +17,7 @@ let quesArray = [
     answerB: "string",
     answerC: "number",
     answerD: "variable",
+    correct: "answer_d",
   },
   {
     question: "What is used primarily to add styling to a web page?",
@@ -20,6 +25,7 @@ let quesArray = [
     answerB: "CSS",
     answerC: "Python",
     answerD: "React.js",
+    correct: "answer_b",
   },
   {
     question: "What does WWW stand for?",
@@ -27,6 +33,7 @@ let quesArray = [
     answerB: "Weak Winter Wind",
     answerC: "World Wide Web",
     answerD: "Wendy Wants Waffles",
+    correct: "answer_c",
   },
   {
     question: "What HTML attribute references an external JavaScript file?",
@@ -34,6 +41,7 @@ let quesArray = [
     answerB: "src",
     answerC: "class",
     answerD: "index",
+    correct: "answer_b",
   },
   {
     question: "What does DOM stand for?",
@@ -41,172 +49,56 @@ let quesArray = [
     answerB: "Display Object Management",
     answerC: "Digital Ordinance Model",
     answerD: "Desktop Oriented Mode",
+    correct: "answer_a",
   },
 ];
-
-let ansArray = ["answer_d", "answer_b", "answer_c", "answer_b", "answer_a"];
+let currentQuestion = {};
+let acceptingAnswers = true;
+let score = 0;
+let questionCounter = 0;
+let availableQuestions = [];
+const SCORE_POINTS = 100;
+const MAX_QUESTIONS = 5;
+const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 let ansA = document.createElement("button");
 let ansB = document.createElement("button");
 let ansC = document.createElement("button");
 let ansD = document.createElement("button");
+let userSubmit = document.createElement("button");
+let userName = document.createElement("input");
+let quizAgain = document.createElement("button");
+let clearScores = document.createElement("button");
 
-ansA.setAttribute("Class", "btn btn-dark text-light btn-block");
-ansB.setAttribute("Class", "btn btn-dark text-light btn-block");
-ansC.setAttribute("Class", "btn btn-dark text-light btn-block");
-ansD.setAttribute("Class", "btn btn-dark text-light btn-block");
+ansA.setAttribute("Class", "btn btn-dark text-light");
+ansB.setAttribute("Class", "btn btn-dark text-light");
+ansC.setAttribute("Class", "btn btn-dark text-light");
+ansD.setAttribute("Class", "btn btn-dark text-light");
 ansA.setAttribute("id", "answer_a");
 ansB.setAttribute("id", "answer_b");
 ansC.setAttribute("id", "answer_c");
 ansD.setAttribute("id", "answer_d");
+userSubmit.setAttribute("Class", "btn btn-dark text-light");
+userSubmit.setAttribute("id", "userSub");
+userName.setAttribute("id", "currentUser");
+quizAgain.setAttribute("Class", "btn btn-dark text-light");
+quizAgain.setAttribute("id", "quizAgainBut");
+clearScores.setAttribute("Class", "btn btn-dark text-light");
 
-let secondsLeft = 45;
-
-function startQuiz(e) {
-  if (e.target.matches("button")) {
-    console.log("Clicked Start");
+function startQuiz(event) {
+  event.preventDefault();
+  if (event.target.matches("button")) {
     setTime();
-    questionFunc1();
+    questionCounter = 0;
+    score = 0;
+    availableQuestions = [...quesArray];
+    getNewQuestion();
     startBtn.style.display = "none";
     ansDiv.appendChild(ansA);
     ansDiv.appendChild(ansB);
     ansDiv.appendChild(ansC);
-    ansDiv.appendChild(ansD)
-    return;   
-}
-else {
+    ansDiv.appendChild(ansD);
     return;
-
-function questionFunc1() {
-  questions.textContent = quesArray[0].question;
-  ansA.textContent = quesArray[0].answerA;
-  ansB.textContent = quesArray[0].answerB;
-  ansC.textContent = quesArray[0].answerC;
-  ansD.textContent = quesArray[0].answerD;
-  ansDiv.addEventListener("click", function () {
-    if (e.target.id === ansArray[0]) {
-      quesResponse.textContent = "Right!";
-      questionFunc2();
-    } else {
-      if (secondsLeft > 10) {
-        quesResponse.textContent = "Wrong!";
-        secondsLeft = secondsLeft - 10;
-        questionFunc2();
-      } else {
-        console.log("need to create ending func");
-      }
-    }
-  });
-}
-
-function questionFunc2() {
-  questions.textContent = quesArray[1].question;
-  ansA.textContent = quesArray[1].answerA;
-  ansB.textContent = quesArray[1].answerB;
-  ansC.textContent = quesArray[1].answerC;
-  ansD.textContent = quesArray[1].answerD;
-  ansDiv.addEventListener("click", function () {
-    e.preventDefault();
-    if (e.target.id === ansArray[1]) {
-      console.log(event.target.id);
-      quesResponse.textContent = "Right!";
-      questionFunc3();
-      return;
-    } else {
-      if (secondsLeft > 10) {
-        quesResponse.textContent = "Wrong!";
-        secondsLeft = secondsLeft - 10;
-        questionFunc3();
-                return;
-            }
-            else {
-                console.log("need to create ending func")
-                questionFunc3();
-                return;
-            }
-        }
-    });
-    return;          
-}
-function questionFunc3() {
-    questions.textContent = quesArray[2].question;
-    ansA.textContent = quesArray[2].answerA;
-    ansB.textContent = quesArray[2].answerB;
-    ansC.textContent = quesArray[2].answerC;
-    ansD.textContent = quesArray[2].answerD;
-    ansDiv.addEventListener('click', function() {
-        if(event.target.id === ansArray[2]) {
-            console.log(event.target.id)
-            quesResponse.textContent = "Right!";
-            questionFunc4();
-            return;
-        }
-        else {
-            if(secondsLeft > 10){
-                quesResponse.textContent = "Wrong!"
-                secondsLeft = secondsLeft-10;
-                questionFunc4();
-                return;
-            }
-            else {
-                console.log("need to create ending func")
-                questionFunc4();
-                return;
-            }
-        }
-    }); 
-    return;         
-}
-function questionFunc4() {
-    questions.textContent = quesArray[3].question;
-    ansA.textContent = quesArray[3].answerA;
-    ansB.textContent = quesArray[3].answerB;
-    ansC.textContent = quesArray[3].answerC;
-    ansD.textContent = quesArray[3].answerD;
-    ansDiv.addEventListener('click', function() {
-        if(event.target.id === ansArray[3]) {
-            console.log(event.target.id)
-            quesResponse.textContent = "Right!";
-            questionFunc5();
-            return;
-        }
-        else {
-            if(secondsLeft > 10){
-                quesResponse.textContent = "Wrong!"
-                secondsLeft = secondsLeft-10;
-                questionFunc5();
-                return;
-            }
-            else {
-                console.log("need to create ending func")
-                return;
-            }
-        }
-    }); 
-    return;         
-}
-function questionFunc5() {
-    questions.textContent = quesArray[4].question;
-    ansA.textContent = quesArray[4].answerA;
-    ansB.textContent = quesArray[4].answerB;
-    ansC.textContent = quesArray[4].answerC;
-    ansD.textContent = quesArray[4].answerD;
-    ansDiv.addEventListener('click', function() {
-        if(e.target.id === ansArray[4]) {
-            console.log(event.target.id)
-            quesResponse.textContent = "Right!";
-            return;
-
-        }
-        else {
-            if(secondsLeft > 10){
-                quesResponse.textContent = "Wrong!"
-                secondsLeft = secondsLeft - 10;
-                return;
-      } else {
-        console.log("need to create ending func");
-      }
-    }
-  });
+  }
 }
 
 function setTime() {
@@ -214,11 +106,163 @@ function setTime() {
     secondsLeft--;
     timeEl.textContent = "Time: " + secondsLeft;
 
-    if (secondsLeft === 0) {
+    if (secondsLeft === 0 || secondsLeft < 0) {
+      localStorage.setItem("mostRecentScore", score);
+      timeEl.textContent = "Time: ";
       clearInterval(timerInterval);
-      console.log("Done");
+      nameInput();
     }
   }, 1000);
 }
 
+function getNewQuestion() {
+  console.log(questionCounter);
+  if (
+    questionCounter >= MAX_QUESTIONS ||
+    secondsLeft === 0 ||
+    secondsLeft < 0
+  ) {
+    localStorage.setItem("mostRecentScore", score);
+    secondsLeft = 0;
+    setTimeout(() => {
+      nameInput();
+    }, 1000);
+  } else {
+    const questionIndex = questionCounter;
+    currentQuestion = availableQuestions[questionIndex];
+    questions.textContent = currentQuestion.question;
+    ansA.textContent = currentQuestion.answerA;
+    ansB.textContent = currentQuestion.answerB;
+    ansC.textContent = currentQuestion.answerC;
+    ansD.textContent = currentQuestion.answerD;
+
+    let choices = [
+      currentQuestion.answerA,
+      currentQuestion.answerB,
+      currentQuestion.answerC,
+      currentQuestion.answerD,
+    ];
+    acceptingAnswers = true;
+    questionCounter++;
+  }
+}
+
+function checkAnswer(event) {
+  event.preventDefault();
+  if (!acceptingAnswers) return;
+
+  acceptingAnswers = false;
+  const selectedChoice = event.target.id;
+  const correctAnswer = currentQuestion.correct;
+  if (selectedChoice === correctAnswer) {
+    quesResponse.textContent = "Correct!";
+    incrementScore(SCORE_POINTS);
+  } else {
+    quesResponse.textContent = "Incorrect!";
+    secondsLeft = secondsLeft - 10;
+  }
+  setTimeout(() => {
+    getNewQuestion();
+  }, 1000);
+}
+
+function incrementScore(num) {
+  score += num;
+}
+
+function nameInput() {
+  title.textContent = "Quiz Finished";
+  questions.style.display = "none";
+  nameEndInput.textContent =
+    "Your final score is " + score + ". Enter your username below.";
+  ansA.style.display = "none";
+  ansB.style.display = "none";
+  ansC.style.display = "none";
+  ansD.style.display = "none";
+  ansSec.appendChild(userName);
+  ansSec.appendChild(userSubmit);
+  userSubmit.textContent = "Submit";
+  quesResponse.textContent = "Congrats on finishing!";
+}
+
+function logScore(event) {
+  event.preventDefault();
+  localStorage.setItem(
+    "mostRecentUser",
+    document.getElementById("currentUser").value
+  );
+  let currentUser = localStorage.getItem("mostRecentUser");
+  let currentScore = localStorage.getItem("mostRecentScore");
+  let scoreObj = {
+    name: currentUser,
+    score: currentScore,
+  };
+  highScores.push(scoreObj);
+  highScores.sort((a, b) => {
+    return b.score - a.score;
+  });
+  localStorage.setItem("highScores", JSON.stringify(highScores));
+
+  ansSec.appendChild(quizAgain);
+  quizAgain.textContent = "Take Quiz Again";
+  nameEndInput.textContent =
+    "Click Take Quiz Again button to restart or Highscores button to see the scores.";
+
+  questions.style.display = "none";
+  ansA.style.display = "none";
+  ansB.style.display = "none";
+  ansC.style.display = "none";
+  ansD.style.display = "none";
+  userName.style.display = "none";
+  userSubmit.style.display = "none";
+
+  return;
+}
+
+function showScores(event) {
+  event.preventDefault();
+  title.textContent = "Highscores";
+  nameEndInput.style.display = "none";
+  questions.style.display = "none";
+  ansA.style.display = "none";
+  ansB.style.display = "none";
+  ansC.style.display = "none";
+  ansD.style.display = "none";
+  userName.style.display = "none";
+  userSubmit.style.display = "none";
+  startBtn.style.display = "none";
+  ansSec.appendChild(quizAgain);
+  quizAgain.textContent = "Take Quiz Again";
+  ansSec.appendChild(clearScores);
+  clearScores.textContent = "Clear Scores";
+  quesResponse.textContent = "Get the top score!";
+  secondsLeft = 0;
+
+  if (highScoresList.children.length === 0) {
+    for (let i = 0; i < highScores.length; i++) {
+      let highScoresLi = document.createElement("li");
+      highScoresLi.setAttribute("Class", "list-group-item");
+      highScoresLi.append(highScores[i].name + ": " + highScores[i].score);
+      highScoresList.appendChild(highScoresLi);
+    }
+  } else {
+  }
+}
+
+function resetQuiz(event) {
+  event.preventDefault();
+  location.reload();
+}
+
+function clear(event) {
+  event.preventDefault();
+  localStorage.clear();
+  location.reload();
+}
+
 startBtn.addEventListener("click", startQuiz);
+ansDiv.addEventListener("click", checkAnswer);
+userSubmit.addEventListener("click", logScore);
+hsLink.addEventListener("click", showScores);
+quizAgain.addEventListener("click", resetQuiz);
+clearScores.addEventListener("click", clear);

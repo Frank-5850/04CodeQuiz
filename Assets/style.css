@@ -1,17 +1,12 @@
-/* This is needed for sticky footer */
-/* Overall Styling */
 html,
 body {
   height: 100%;
 }
 
-/* Start of page content styling */
 #page-content {
   flex: 1 0 auto;
 }
 
-/* Start of footer styling */
-#sticky-footer {
-  flex-shrink: 0;
+.btn {
+  margin: 1rem;
 }
-/* End of needed for sticky footer */
